@@ -41,7 +41,7 @@ export default function HomePage() {
 
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-blue-900 to-blue-700 text-white overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&q=80')] opacity-10 bg-cover bg-center"></div>
+        <div className="absolute inset-0 bg-[url('/logoimage.png')] opacity-10 bg-auto bg-center bg-no-repeat"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-32 relative z-10">
           <div className="text-center max-w-3xl mx-auto space-y-8">
             <h1 className="text-4xl sm:text-5xl font-extrabold leading-tight">
