@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
+    "framer-motion": "^12.34.4",
     "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.3",
     "jspdf": "^4.2.0",
@@ -18,7 +19,8 @@
     "next": "14.2.15",
     "react": "^18",
     "react-dom": "^18",
-    "react-hot-toast": "^2.6.0"
+    "react-hot-toast": "^2.6.0",
+    "react-simple-keyboard": "^3.8.165"
   },
   "devDependencies": {
     "@types/jsonwebtoken": "^9.0.10",
