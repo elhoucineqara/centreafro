@@ -145,11 +145,7 @@ export default function HomePage() {
       </section>
 
       {/* Why Join Us Section */}
-      <section className="py-20 bg-gradient-to-br from-blue-900 to-indigo-900 text-white" style={{
-        clipPath: 'polygon(0 10%, 100% 0, 100% 90%, 0 100%)',
-        paddingTop: '6rem',
-        paddingBottom: '6rem'
-      }}>
+      <section className="py-20 bg-gradient-to-br from-blue-900 to-indigo-900 text-white border-t-4 border-b-4 border-blue-500 relative overflow-hidden">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
           <svg className="w-16 h-16 mx-auto text-blue-400 mb-6 opacity-80" fill="currentColor" viewBox="0 0 20 20">
             <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 8.56l-1.07.46A.999.999 0 002 9.93v5.07c0 .553.448 1 1 1s1-.447 1-1v-4.57l.024-.01zM10 13a1 1 0 00.394-.08l5-2.143V14c0 1.104-.896 2-2 2H7c-1.104 0-2-.896-2-2v-3.22l4.606 1.973c.125.054.26.08.394.08z" />
