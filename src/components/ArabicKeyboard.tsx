@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef } from "react";
 import Keyboard from "react-simple-keyboard";
 import "react-simple-keyboard/build/css/index.css";
 
@@ -22,7 +22,7 @@ interface ArabicKeyboardProps {
 }
 
 export default function ArabicKeyboard({ onKeyPress, onBackspace, onSpace, onClose }: ArabicKeyboardProps) {
-    const keyboard = useRef<any>(null);
+    const keyboard = useRef<typeof Keyboard | null>(null);
 
     const handleKeyPress = (button: string) => {
         if (button === "{bksp}") onBackspace();
@@ -47,7 +47,7 @@ export default function ArabicKeyboard({ onKeyPress, onBackspace, onSpace, onClo
 
             <div className="arabic-keyboard-theme" dir="ltr">
                 <Keyboard
-                    keyboardRef={(r: any) => (keyboard.current = r)}
+                    keyboardRef={(r: typeof Keyboard) => (keyboard.current = r)}
                     layout={arabicLayout}
                     onKeyPress={handleKeyPress}
                     display={{
