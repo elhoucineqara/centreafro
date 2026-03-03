@@ -47,16 +47,19 @@ export default function HomePage() {
       <section id="about" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">رؤيتنا ورسالتنا</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">من نحن</h2>
             <div className="w-24 h-1 bg-blue-600 mx-auto rounded-full"></div>
           </div>
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="space-y-6 text-gray-600 text-lg leading-relaxed">
-              <p>
-                يسعى المركز الأفرو-متوسطي إلى تعزيز النقاش الأكاديمي والعملي حول القضايا القانونية، والسوسيو-اقتصادية التي تهم المنطقتين الإفريقية والمتوسطية.
+              <p className="font-semibold text-xl text-gray-900">
+                المركز الأفرو-متوسطي للتفكير والدراسات القانونية والسوسيو اقتصادية
               </p>
               <p>
-                نعمل كجسر تواصل بين الباحثين، صناع القرار، وفعاليات المجتمع المدني لإنتاج أبحاث ودراسات استراتيجية تساهم في التنمية المستدامة وتقوية المؤسسات.
+                هو مؤسسة بحثية علمية رائدة، تسعى إلى تعزيز النقاش الفكري وتعميق البحث الأكاديمي في القضايا القانونية، الاقتصادية، والاجتماعية التي تهم المنطقتين الأفريقية والمتوسطية.
+              </p>
+              <p>
+                نحن نؤمن بأن البحث العلمي هو القاطرة الأساسية للتنمية، ولذلك نعمل على خلق فضاء يجمع بين الباحثين الأكاديميين والطلبة الطموحين لتبادل الخبرات وتطوير المهارات القيادية والمنهجية.
               </p>
             </div>
             <div className="relative h-80 rounded-2xl overflow-hidden shadow-xl">
@@ -71,46 +74,98 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Areas of focus section / Features */}
-      <section id="objectives" className="py-20 bg-gray-50 border-t border-gray-200">
+      {/* Vision and Goals Section */}
+      <section id="vision" className="py-20 bg-gray-50 border-t border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">مجالات اهتمام المركز</h2>
-            <div className="w-24 h-1 bg-blue-600 mx-auto rounded-full"></div>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">رؤيتنا وأهدافنا</h2>
+            <div className="w-24 h-1 bg-blue-600 mx-auto rounded-full mb-8"></div>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              نهدف في المركز إلى أن نكون مرجعاً بحثياً يساهم في:
+            </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-              <div className="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center mb-6 text-blue-600">
-                <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">الدراسات القانونية</h3>
-              <p className="text-gray-600">تحليل النظم القانونية وتشريعات المقارنة واقتراح إصلاحات لتعزيز دولة الحق والقانون.</p>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow relative overflow-hidden group">
+              <div className="absolute top-0 right-0 w-2 h-full bg-blue-500 transform origin-right scale-y-0 group-hover:scale-y-100 transition-transform duration-300"></div>
+              <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center mb-4 text-xl font-bold">1</div>
+              <p className="text-gray-700 font-medium">إعداد دراسات وأبحاث معمقة في مجالات القانون والسياسة والاقتصاد.</p>
             </div>
 
-            <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-              <div className="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center mb-6 text-green-600">
-                <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">التنمية السوسيو-اقتصادية</h3>
-              <p className="text-gray-600">رصد المؤشرات الاقتصادية والاجتماعية وتقديم رؤى حول سياسات الإدماج والتنمية المستدامة.</p>
+            <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow relative overflow-hidden group">
+              <div className="absolute top-0 right-0 w-2 h-full bg-indigo-500 transform origin-right scale-y-0 group-hover:scale-y-100 transition-transform duration-300"></div>
+              <div className="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center mb-4 text-xl font-bold">2</div>
+              <p className="text-gray-700 font-medium">تنظيم ندوات وملتقيات علمية دولية ووطنية لمناقشة قضايا الراهن.</p>
             </div>
 
-            <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-              <div className="w-14 h-14 bg-purple-100 rounded-xl flex items-center justify-center mb-6 text-purple-600">
-                <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">التعاون الدولي والإقليمي</h3>
-              <p className="text-gray-600">تعميق البحث في قضايا الجيوسياسة، الهجرة، والشراكات في الحوض المتوسطي وإفريقيا.</p>
+            <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow relative overflow-hidden group">
+              <div className="absolute top-0 right-0 w-2 h-full bg-purple-500 transform origin-right scale-y-0 group-hover:scale-y-100 transition-transform duration-300"></div>
+              <div className="w-12 h-12 bg-purple-50 text-purple-600 rounded-xl flex items-center justify-center mb-4 text-xl font-bold">3</div>
+              <p className="text-gray-700 font-medium">دعم الباحثين الشباب من خلال برامج التكوين والدعم المنهجي والمعرفي.</p>
+            </div>
+
+            <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow relative overflow-hidden group">
+              <div className="absolute top-0 right-0 w-2 h-full bg-pink-500 transform origin-right scale-y-0 group-hover:scale-y-100 transition-transform duration-300"></div>
+              <div className="w-12 h-12 bg-pink-50 text-pink-600 rounded-xl flex items-center justify-center mb-4 text-xl font-bold">4</div>
+              <p className="text-gray-700 font-medium">نشر المعرفة عبر مجلة المركز والمؤلفات الجماعية الرصينة.</p>
             </div>
           </div>
         </div>
+      </section>
+
+      {/* Labs and Teams Section */}
+      <section id="labs" className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">مختبراتنا وفرق البحث</h2>
+            <div className="w-24 h-1 bg-blue-600 mx-auto rounded-full mb-6"></div>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              يضم المركز نخبة من المتخصصين موزعين على فرق بحثية متكاملة تشمل:
+            </p>
+          </div>
+
+          <div className="flex flex-wrap justify-center gap-4">
+            <span className="px-6 py-3 bg-blue-50 text-blue-700 font-semibold rounded-full border border-blue-100 hover:bg-blue-600 hover:text-white transition-colors cursor-default shadow-sm">
+              الدراسات القانونية والسياسية والدولية
+            </span>
+            <span className="px-6 py-3 bg-indigo-50 text-indigo-700 font-semibold rounded-full border border-indigo-100 hover:bg-indigo-600 hover:text-white transition-colors cursor-default shadow-sm">
+              الدراسات الاقتصادية والتدبيرية
+            </span>
+            <span className="px-6 py-3 bg-purple-50 text-purple-700 font-semibold rounded-full border border-purple-100 hover:bg-purple-600 hover:text-white transition-colors cursor-default shadow-sm">
+              الدراسات الاجتماعية والنفسية
+            </span>
+            <span className="px-6 py-3 bg-pink-50 text-pink-700 font-semibold rounded-full border border-pink-100 hover:bg-pink-600 hover:text-white transition-colors cursor-default shadow-sm">
+              الدراسات التاريخية والمجالية
+            </span>
+            <span className="px-6 py-3 bg-emerald-50 text-emerald-700 font-semibold rounded-full border border-emerald-100 hover:bg-emerald-600 hover:text-white transition-colors cursor-default shadow-sm">
+              الدراسات البيئية والتنمية المستدامة
+            </span>
+          </div>
+        </div>
+      </section>
+
+      {/* Why Join Us Section */}
+      <section className="py-20 bg-gradient-to-br from-blue-900 to-indigo-900 text-white" style={{
+        clipPath: 'polygon(0 10%, 100% 0, 100% 90%, 0 100%)',
+        paddingTop: '6rem',
+        paddingBottom: '6rem'
+      }}>
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+          <svg className="w-16 h-16 mx-auto text-blue-400 mb-6 opacity-80" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 8.56l-1.07.46A.999.999 0 002 9.93v5.07c0 .553.448 1 1 1s1-.447 1-1v-4.57l.024-.01zM10 13a1 1 0 00.394-.08l5-2.143V14c0 1.104-.896 2-2 2H7c-1.104 0-2-.896-2-2v-3.22l4.606 1.973c.125.054.26.08.394.08z" />
+          </svg>
+          <h2 className="text-3xl sm:text-4xl font-bold mb-6">لماذا تنضم إلينا؟</h2>
+          <p className="text-xl text-blue-100 leading-relaxed max-w-3xl mx-auto mb-10">
+            نحن لا نقدم مجرد عضوية، بل نفتح آفاقاً لتطوير المسار البحثي والعلمي، حيث يستفيد أعضاؤنا من الأولوية في المشاركة في الفعاليات، النشر العلمي، والمساهمة الفعالة في تنظيم وتأطير الأنشطة العلمية والثقافية.
+          </p>
+          <Link
+            href="/register"
+            className="inline-block px-8 py-4 bg-white text-blue-900 text-lg font-bold rounded-full hover:bg-gray-100 transition-all shadow-xl hover:-translate-y-1 hover:shadow-2xl"
+          >
+            قدم طلب الانضمام الآن
+          </Link>
+        </div>
+        <div className="absolute inset-0 bg-[url('/logoimage.png')] opacity-5 bg-auto bg-center bg-no-repeat pointer-events-none"></div>
       </section>
 
       {/* Footer */}
