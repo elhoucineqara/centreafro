@@ -3,8 +3,6 @@
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 
-import Image from 'next/image';
-import Link from 'next/link';
 import { motion } from 'framer-motion';
 import ArabicKeyboard from '@/components/ArabicKeyboard';
 
