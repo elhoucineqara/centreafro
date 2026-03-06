@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { Tajawal } from 'next/font/google';
-import { Toaster } from 'react-hot-toast';
 import './globals.css';
 
 const tajawal = Tajawal({
@@ -13,6 +12,10 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://centre-afromed.vercel.app/'),
   title: 'المركز الأفرو-متوسطي للتفكير والدراسات القانونية والسوسيو اقتصادية',
   description: 'بوابة التسجيل الخاصة بالمركز الأفرو-متوسطي للتفكير والدراسات القانونية والسوسيو اقتصادية',
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/icon.png',
+  },
   openGraph: {
     title: 'المركز الأفرو-متوسطي للتفكير والدراسات القانونية والسوسيو اقتصادية',
     description: 'بوابة التسجيل الخاصة بالمركز الأفرو-متوسطي للتفكير والدراسات القانونية والسوسيو اقتصادية',
@@ -37,7 +40,7 @@ export const metadata: Metadata = {
   },
 };
 
-import Navbar from '@/components/Navbar';
+import ClientLayout from '@/components/ClientLayout';
 
 export default function RootLayout({
   children,
@@ -46,11 +49,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ar" dir="rtl">
-      <body className={`${tajawal.className} antialiased bg-gray-50 text-gray-900 min-h-screen flex flex-col`}>
-        <Navbar />
+      <ClientLayout tajawalClass={tajawal.variable}>
         {children}
-        <Toaster position="top-center" />
-      </body>
+      </ClientLayout>
     </html>
   );
 }

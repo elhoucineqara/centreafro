@@ -19,6 +19,8 @@ export default function RegistrationPage() {
     specialization: '',
     employed: null as boolean | null,
     sector: '',
+    photo: null as File | null,
+    cinPdf: null as File | null,
   });
 
   const [loading, setLoading] = useState(false);
@@ -50,18 +52,30 @@ export default function RegistrationPage() {
     setLoading(true);
 
     try {
-      const dbData = {
-        ...formData,
-        age: parseInt(formData.age),
-        sector: formData.employed ? formData.sector : null,
-      };
+      if (!formData.photo) {
+        toast.error('يرجى تحميل الصورة الشخصية');
+        setLoading(false);
+        return;
+      }
+      if (!formData.cinPdf) {
+        toast.error('يرجى تحميل نسخة البطاقة الوطنية (PDF)');
+        setLoading(false);
+        return;
+      }
+
+      const dataToSend = new FormData();
+      Object.entries(formData).forEach(([key, value]) => {
+        if (value === null || value === undefined) return;
+        if (value instanceof File) {
+          dataToSend.append(key, value);
+        } else {
+          dataToSend.append(key, String(value));
+        }
+      });
 
       const res = await fetch('/api/register', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(dbData),
+        body: dataToSend,
       });
 
       const data = await res.json();
@@ -83,6 +97,13 @@ export default function RegistrationPage() {
         specialization: '',
         employed: null,
         sector: '',
+        photo: null,
+        cinPdf: null,
+      });
+      // Reset file inputs manually if needed
+      const fileInputs = document.querySelectorAll('input[type="file"]');
+      fileInputs.forEach((input) => {
+        (input as HTMLInputElement).value = '';
       });
     } catch (error: unknown) {
       if (error instanceof Error) toast.error(error.message);
@@ -162,6 +183,30 @@ export default function RegistrationPage() {
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.35, duration: 0.4 }}
+              className="group"
+            >
+              <label className="block text-sm font-bold text-gray-700 mb-2">الصورة الشخصية <span className="text-red-500">*</span></label>
+              <div className="relative border-2 border-dashed border-gray-200 rounded-xl p-6 hover:border-blue-400 transition-colors bg-gray-50/50">
+                <input
+                  type="file"
+                  accept="image/*"
+                  required
+                  onChange={e => setFormData({ ...formData, photo: e.target.files?.[0] || null })}
+                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                />
+                <div className="flex items-center justify-center gap-4">
+                  <svg className="h-10 w-10 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  <p className="text-sm text-gray-500 font-medium">{formData.photo ? formData.photo.name : 'اسحب صورتك هنا أو انقر للاختيار (JPG, PNG)'}</p>
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.4, duration: 0.4 }}
               className="grid grid-cols-1 gap-6 sm:grid-cols-2"
             >
@@ -169,9 +214,29 @@ export default function RegistrationPage() {
                 <label className="block text-sm font-bold text-gray-700 mb-2">رقم بطاقة التعريف الوطنية (CNI) <span className="text-red-500">*</span></label>
                 <input type="text" required dir="ltr" value={formData.cni} onChange={e => setFormData({ ...formData, cni: e.target.value })} className="w-full px-5 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all shadow-sm outline-none hover:border-blue-300 text-right" placeholder="AB123456" />
               </div>
-              <div className="group">
-                <label className="block text-sm font-bold text-gray-700 mb-2">السن <span className="text-red-500">*</span></label>
-                <input type="number" required min="18" max="100" value={formData.age} onChange={e => setFormData({ ...formData, age: e.target.value })} className="w-full px-5 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all shadow-sm outline-none hover:border-blue-300" placeholder="مثال: 25" />
+
+              <div className="space-y-6">
+                <div className="group">
+                  <label className="block text-sm font-bold text-gray-700 mb-2">نسخة البطاقة الوطنية (PDF) <span className="text-red-500">*</span></label>
+                  <div className="relative border border-gray-300 rounded-xl p-3 hover:border-blue-400 transition-colors bg-white shadow-sm flex items-center justify-between">
+                    <input
+                      type="file"
+                      accept="application/pdf"
+                      required
+                      onChange={e => setFormData({ ...formData, cinPdf: e.target.files?.[0] || null })}
+                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                    />
+                    <span className="text-xs text-gray-500 truncate max-w-[120px]">{formData.cinPdf ? formData.cinPdf.name : 'اختر ملف PDF'}</span>
+                    <svg className="h-5 w-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                </div>
+
+                <div className="group">
+                  <label className="block text-sm font-bold text-gray-700 mb-2">السن <span className="text-red-500">*</span></label>
+                  <input type="number" required min="18" max="100" value={formData.age} onChange={e => setFormData({ ...formData, age: e.target.value })} className="w-full px-5 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all shadow-sm outline-none hover:border-blue-300" placeholder="مثال: 25" />
+                </div>
               </div>
             </motion.div>
 
@@ -264,6 +329,7 @@ export default function RegistrationPage() {
                 </motion.div>
               )}
             </motion.div>
+
 
             <motion.div
               whileHover={{ scale: 1.02 }}
