@@ -18,14 +18,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <AdminSidebar />
 
             {/* Main Content Area */}
-            <div className="flex-1 mr-72 min-h-screen flex flex-col relative overflow-y-auto">
-                {/* Dynamic Header */}
-                <header className="sticky top-0 z-40 bg-white/60 backdrop-blur-xl border-b border-gray-100 px-6 py-3 flex justify-between items-center shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07)]">
+            <div className="flex-1 mr-72 h-screen flex flex-col relative overflow-hidden text-right">
+                {/* Fixed Header */}
+                <header className="z-40 bg-white/60 backdrop-blur-xl border-b border-gray-100 px-6 py-3 flex justify-between items-center shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07)] shrink-0">
                     <div className="flex items-center gap-3">
                         <div className="w-1.5 h-8 bg-gradient-to-b from-blue-600 to-indigo-600 rounded-full" />
                         <div>
-                            <h1 className="text-lg font-black text-slate-900 tracking-tight leading-none mb-1">لوحة الإدارة</h1>
-                            <p className="text-[9px] text-slate-400 font-bold uppercase tracking-widest leading-none">الإدارة المركزية</p>
+                            <h1 className="text-lg font-black text-slate-900 tracking-tight leading-none mb-1 text-right">لوحة الإدارة</h1>
+                            <p className="text-[9px] text-slate-400 font-bold uppercase tracking-widest leading-none text-right">الإدارة المركزية</p>
                         </div>
                     </div>
 
@@ -46,10 +46,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                     </div>
                 </header>
 
-                {/* Page Content */}
-                <main className="p-6 max-w-[1600px] mx-auto w-full">
-                    {children}
-                </main>
+                {/* Scrollable Content Area */}
+                <div className="flex-1 overflow-y-auto custom-scrollbar bg-[#f8fafc]">
+                    <main className="p-6 max-w-[1600px] mx-auto w-full">
+                        {children}
+                    </main>
+                </div>
             </div>
         </div>
     );

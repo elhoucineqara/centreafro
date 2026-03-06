@@ -16,7 +16,12 @@ export default function ClientLayout({
 
     return (
         <body className={`${tajawalClass} antialiased bg-gray-50 text-gray-900 min-h-screen flex flex-col`}>
-            {!isAdminRoute && <Navbar />}
+            {!isAdminRoute && (
+                <>
+                    <Navbar />
+                    <div className="h-20 shrink-0" />
+                </>
+            )}
             {children}
             <Toaster position="top-center" />
         </body>

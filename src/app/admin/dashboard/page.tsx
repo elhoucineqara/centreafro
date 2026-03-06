@@ -216,12 +216,13 @@ export default function AdminDashboardPage() {
                                                 </div>
                                                 <div>
                                                     <div className="text-lg font-black text-slate-900 mb-0.5 tracking-tight group-hover:text-blue-600 transition-colors uppercase">{member.fullNameArabic}</div>
-                                                    <div className="text-[10px] text-slate-400 font-black flex items-center gap-2 uppercase tracking-widest leading-none">
+                                                    <div className="text-[10px] text-slate-400 font-black flex items-center gap-2 uppercase tracking-widest leading-none mb-1.5 mt-1">
                                                         <span>{member.fullNameFrench}</span>
                                                         <span className="w-1.5 h-1.5 rounded-full bg-slate-200" />
                                                         <span className="text-slate-500">{member.cni}</span>
-                                                        <span className="w-1.5 h-1.5 rounded-full bg-slate-200" />
-                                                        <span className="text-blue-500/70 lowercase">{member.email}</span>
+                                                    </div>
+                                                    <div className="text-[10px] text-blue-500/70 lowercase font-black tracking-wider leading-none">
+                                                        {member.email}
                                                     </div>
                                                 </div>
                                             </div>
