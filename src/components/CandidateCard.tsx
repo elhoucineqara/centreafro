@@ -78,7 +78,9 @@ export default function CandidateCard({ member, onClose }: CandidateCardProps) {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative">
                         <div className="absolute -left-4 top-0 bottom-0 w-1 bg-blue-100 rounded-full"></div>
                         <InfoItem label="رقم البطاقة (CNI)" value={<span className="uppercase tracking-widest">{member.cni}</span>} dir="ltr" />
-                        <InfoItem label="السن" value={`${member.age} سنة`} />
+                        <div className="md:col-span-2">
+                            <InfoItem label="رقم الهاتف" value={member.phone} />
+                        </div>
                         <div className="md:col-span-2">
                             <InfoItem label="العنوان الكامل" value={member.address} />
                         </div>

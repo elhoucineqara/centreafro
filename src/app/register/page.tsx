@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 
 import { motion } from 'framer-motion';
-import ArabicKeyboard from '@/components/ArabicKeyboard';
 
 export default function RegistrationPage() {
   const [formData, setFormData] = useState({
@@ -12,7 +11,9 @@ export default function RegistrationPage() {
     fullNameArabic: '',
     fullNameFrench: '',
     cni: '',
-    age: '',
+    phone: '',
+    birthDate: '',
+    email: '',
     address: '',
     city: '',
     educationLevel: '',
@@ -24,28 +25,6 @@ export default function RegistrationPage() {
   });
 
   const [loading, setLoading] = useState(false);
-  const [showKeyboard, setShowKeyboard] = useState(false);
-
-  const handleKeyboardPress = (char: string) => {
-    setFormData(prev => ({
-      ...prev,
-      fullNameArabic: prev.fullNameArabic + char
-    }));
-  };
-
-  const handleBackspace = () => {
-    setFormData(prev => ({
-      ...prev,
-      fullNameArabic: prev.fullNameArabic.slice(0, -1)
-    }));
-  };
-
-  const handleSpace = () => {
-    setFormData(prev => ({
-      ...prev,
-      fullNameArabic: prev.fullNameArabic + ' '
-    }));
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -90,7 +69,9 @@ export default function RegistrationPage() {
         fullNameArabic: '',
         fullNameFrench: '',
         cni: '',
-        age: '',
+        phone: '',
+        birthDate: '',
+        email: '',
         address: '',
         city: '',
         educationLevel: '',
@@ -140,44 +121,27 @@ export default function RegistrationPage() {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.3, duration: 0.4 }}
-              className="grid grid-cols-1 gap-6 sm:grid-cols-2"
+              className="group relative"
             >
-              <div className="group relative">
-                <div className="flex justify-between items-center mb-2">
-                  <label className="text-sm font-bold text-gray-700 block">الاسم الكامل بالعربية <span className="text-red-500">*</span></label>
-                  <button
-                    type="button"
-                    onClick={() => setShowKeyboard(!showKeyboard)}
-                    className="text-xs text-blue-600 hover:text-blue-800 font-medium flex items-center gap-1 bg-blue-50 px-2 py-1 rounded-md transition-colors"
-                  >
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                    </svg>
-                    لوحة المفاتيح
-                  </button>
-                </div>
-                <input
-                  type="text"
-                  required
-                  value={formData.fullNameArabic}
-                  onChange={e => setFormData({ ...formData, fullNameArabic: e.target.value })}
-                  className="w-full px-5 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all shadow-sm outline-none hover:border-blue-300"
-                  placeholder="الاسم العائلي والشخصي"
-                />
+              <label className="text-sm font-bold text-gray-700 block mb-2">الاسم الكامل بالعربية <span className="text-red-500">*</span></label>
+              <input
+                type="text"
+                required
+                value={formData.fullNameArabic}
+                onChange={e => setFormData({ ...formData, fullNameArabic: e.target.value })}
+                className="w-full px-5 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all shadow-sm outline-none hover:border-blue-300"
+                placeholder="الاسم العائلي والشخصي"
+              />
+            </motion.div>
 
-                {showKeyboard && (
-                  <ArabicKeyboard
-                    onKeyPress={handleKeyboardPress}
-                    onBackspace={handleBackspace}
-                    onSpace={handleSpace}
-                    onClose={() => setShowKeyboard(false)}
-                  />
-                )}
-              </div>
-              <div className="group">
-                <label className="block text-sm font-bold text-gray-700 mb-2">الاسم الكامل بالفرنسية <span className="text-red-500">*</span></label>
-                <input type="text" required dir="ltr" value={formData.fullNameFrench} onChange={e => setFormData({ ...formData, fullNameFrench: e.target.value })} className="w-full px-5 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all shadow-sm outline-none hover:border-blue-300 text-right" placeholder="Nom et Prénom" />
-              </div>
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.32, duration: 0.4 }}
+              className="group"
+            >
+              <label className="block text-sm font-bold text-gray-700 mb-2">الاسم الكامل بالفرنسية <span className="text-red-500">*</span></label>
+              <input type="text" required dir="ltr" value={formData.fullNameFrench} onChange={e => setFormData({ ...formData, fullNameFrench: e.target.value })} className="w-full px-5 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all shadow-sm outline-none hover:border-blue-300 text-right" placeholder="Nom et Prénom" />
             </motion.div>
 
             <motion.div
@@ -199,7 +163,7 @@ export default function RegistrationPage() {
                   <svg className="h-10 w-10 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                   </svg>
-                  <p className="text-sm text-gray-500 font-medium">{formData.photo ? formData.photo.name : 'اسحب صورتك هنا أو انقر للاختيار (JPG, PNG)'}</p>
+                  <p className="text-sm text-gray-500 font-medium">{formData.photo ? formData.photo.name : 'اسحب صورتك هنا (JPG, PNG)'}</p>
                 </div>
               </div>
             </motion.div>
@@ -207,36 +171,62 @@ export default function RegistrationPage() {
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.4, duration: 0.4 }}
-              className="grid grid-cols-1 gap-6 sm:grid-cols-2"
+              transition={{ delay: 0.38, duration: 0.4 }}
+              className="group"
             >
-              <div className="group">
-                <label className="block text-sm font-bold text-gray-700 mb-2">رقم بطاقة التعريف الوطنية (CNI) <span className="text-red-500">*</span></label>
-                <input type="text" required dir="ltr" value={formData.cni} onChange={e => setFormData({ ...formData, cni: e.target.value })} className="w-full px-5 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all shadow-sm outline-none hover:border-blue-300 text-right" placeholder="AB123456" />
-              </div>
+              <label className="block text-sm font-bold text-gray-700 mb-2">تاريخ الازدياد <span className="text-red-500">*</span></label>
+              <input type="date" required value={formData.birthDate} onChange={e => setFormData({ ...formData, birthDate: e.target.value })} className="w-full px-5 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all shadow-sm outline-none hover:border-blue-300" />
+            </motion.div>
 
-              <div className="space-y-6">
-                <div className="group">
-                  <label className="block text-sm font-bold text-gray-700 mb-2">نسخة البطاقة الوطنية (PDF) <span className="text-red-500">*</span></label>
-                  <div className="relative border border-gray-300 rounded-xl p-3 hover:border-blue-400 transition-colors bg-white shadow-sm flex items-center justify-between">
-                    <input
-                      type="file"
-                      accept="application/pdf"
-                      required
-                      onChange={e => setFormData({ ...formData, cinPdf: e.target.files?.[0] || null })}
-                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                    />
-                    <span className="text-xs text-gray-500 truncate max-w-[120px]">{formData.cinPdf ? formData.cinPdf.name : 'اختر ملف PDF'}</span>
-                    <svg className="h-5 w-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                    </svg>
-                  </div>
-                </div>
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.39, duration: 0.4 }}
+              className="group"
+            >
+              <label className="block text-sm font-bold text-gray-700 mb-2">البريد الإلكتروني <span className="text-red-500">*</span></label>
+              <input type="email" required dir="ltr" value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} className="w-full px-5 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all shadow-sm outline-none hover:border-blue-300 text-right" placeholder="example@email.com" />
+            </motion.div>
 
-                <div className="group">
-                  <label className="block text-sm font-bold text-gray-700 mb-2">السن <span className="text-red-500">*</span></label>
-                  <input type="number" required min="18" max="100" value={formData.age} onChange={e => setFormData({ ...formData, age: e.target.value })} className="w-full px-5 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all shadow-sm outline-none hover:border-blue-300" placeholder="مثال: 25" />
-                </div>
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.4, duration: 0.4 }}
+              className="group"
+            >
+              <label className="block text-sm font-bold text-gray-700 mb-2">رقم بطاقة التعريف الوطنية (CNI) <span className="text-red-500">*</span></label>
+              <input type="text" required dir="ltr" value={formData.cni} onChange={e => setFormData({ ...formData, cni: e.target.value })} className="w-full px-5 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all shadow-sm outline-none hover:border-blue-300 text-right" placeholder="AB123456" />
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.42, duration: 0.4 }}
+              className="group"
+            >
+              <label className="block text-sm font-bold text-gray-700 mb-2">رقم الهاتف <span className="text-red-500">*</span></label>
+              <input type="tel" required dir="ltr" value={formData.phone} onChange={e => setFormData({ ...formData, phone: e.target.value })} className="w-full px-5 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all shadow-sm outline-none hover:border-blue-300 text-right" placeholder="0600000000" />
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.45, duration: 0.4 }}
+              className="group"
+            >
+              <label className="block text-sm font-bold text-gray-700 mb-2">نسخة البطاقة الوطنية (PDF) <span className="text-red-500">*</span></label>
+              <div className="relative border border-gray-300 rounded-xl p-3 hover:border-blue-400 transition-colors bg-white shadow-sm flex items-center justify-between">
+                <input
+                  type="file"
+                  accept="application/pdf"
+                  required
+                  onChange={e => setFormData({ ...formData, cinPdf: e.target.files?.[0] || null })}
+                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                />
+                <span className="text-xs text-gray-500 truncate max-w-[120px]">{formData.cinPdf ? formData.cinPdf.name : 'اختر ملف PDF'}</span>
+                <svg className="h-5 w-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                </svg>
               </div>
             </motion.div>
 
@@ -267,7 +257,7 @@ export default function RegistrationPage() {
               className="group"
             >
               <label className="block text-sm font-bold text-gray-700 mb-3">المستوى الدراسي <span className="text-red-500">*</span></label>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="space-y-4">
                 <label className={`flex items-center p-4 border rounded-xl cursor-pointer transition-all ${formData.educationLevel === 'حاصل على شهادة جامعية' ? 'border-blue-500 bg-blue-50 ring-1 ring-blue-500 shadow-sm' : 'border-gray-200 bg-gray-50 hover:bg-white hover:border-blue-300'}`}>
                   <input type="radio" value="حاصل على شهادة جامعية" checked={formData.educationLevel === 'حاصل على شهادة جامعية'} onChange={e => setFormData({ ...formData, educationLevel: e.target.value })} required className="w-5 h-5 text-blue-600 border-gray-300 focus:ring-blue-500 ml-3" />
                   <span className="text-gray-700 font-medium">حاصل على شهادة جامعية</span>
@@ -316,7 +306,7 @@ export default function RegistrationPage() {
                   className="pt-4 border-t border-gray-200 overflow-hidden"
                 >
                   <label className="block text-sm font-bold text-gray-700 mb-3">القطاع <span className="text-red-500">*</span></label>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="space-y-4">
                     <label className={`flex items-center p-3 border rounded-xl cursor-pointer transition-all ${formData.sector === 'القطاع العام' ? 'border-blue-500 bg-white ring-1 ring-blue-500 shadow-md transform scale-[1.02]' : 'border-gray-200 bg-white hover:bg-gray-50'}`}>
                       <input type="radio" value="القطاع العام" checked={formData.sector === 'القطاع العام'} onChange={e => setFormData({ ...formData, sector: e.target.value })} required className="w-5 h-5 text-blue-600 border-gray-300 focus:ring-blue-500 ml-3" />
                       <span className="text-gray-700 font-medium">القطاع العام</span>

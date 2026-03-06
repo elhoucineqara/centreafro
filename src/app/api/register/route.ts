@@ -19,7 +19,9 @@ export async function POST(req: NextRequest) {
         const fullNameArabic = formData.get('fullNameArabic') as string;
         const fullNameFrench = formData.get('fullNameFrench') as string;
         const cni = formData.get('cni') as string;
-        const age = formData.get('age') as string;
+        const phone = formData.get('phone') as string;
+        const birthDate = formData.get('birthDate') as string;
+        const email = formData.get('email') as string;
         const address = formData.get('address') as string;
         const city = formData.get('city') as string;
         const educationLevel = formData.get('educationLevel') as string;
@@ -28,7 +30,7 @@ export async function POST(req: NextRequest) {
         const sector = formData.get('sector') as string;
 
         // Validations
-        if (!fullNameArabic || !fullNameFrench || !cni || !age || !address || !city || !educationLevel || !specialization) {
+        if (!fullNameArabic || !fullNameFrench || !cni || !phone || !birthDate || !email || !address || !city || !educationLevel || !specialization) {
             return NextResponse.json(
                 { error: 'جميع الحقول التي تحمل علامة (*) مطلوبة' },
                 { status: 400 }
@@ -100,7 +102,9 @@ export async function POST(req: NextRequest) {
             fullNameArabic,
             fullNameFrench,
             cni: cni.trim().toUpperCase(),
-            age: parseInt(age),
+            phone,
+            email,
+            birthDate: new Date(birthDate),
             address,
             city,
             educationLevel,

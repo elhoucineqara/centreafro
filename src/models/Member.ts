@@ -4,7 +4,7 @@ export interface IMember extends Document {
     fullNameArabic: string;
     fullNameFrench: string;
     cni: string;
-    age: number;
+    age?: number;
     address: string;
     city: string;
     educationLevel: string;
@@ -13,9 +13,9 @@ export interface IMember extends Document {
     sector?: string;
     photoUrl: string;
     cinPdfUrl: string;
-    phone?: string;
-    email?: string;
-    birthDate?: Date;
+    phone: string;
+    email: string;
+    birthDate: Date;
     status: 'pending' | 'approved' | 'rejected';
     createdAt: Date;
 }
@@ -24,7 +24,7 @@ const MemberSchema: Schema = new Schema({
     fullNameArabic: { type: String, required: true },
     fullNameFrench: { type: String, required: true },
     cni: { type: String, required: true, unique: true },
-    age: { type: Number, required: true },
+    age: { type: Number, default: null },
     address: { type: String, required: true },
     city: { type: String, required: true },
     educationLevel: { type: String, required: true },
@@ -33,9 +33,9 @@ const MemberSchema: Schema = new Schema({
     sector: { type: String, default: null },
     photoUrl: { type: String, required: true },
     cinPdfUrl: { type: String, required: true },
-    phone: { type: String, default: null },
-    email: { type: String, default: null },
-    birthDate: { type: Date, default: null },
+    phone: { type: String, required: true },
+    email: { type: String, required: true },
+    birthDate: { type: Date, required: true },
     status: { type: String, enum: ['pending', 'approved', 'rejected'], default: 'pending' },
     createdAt: { type: Date, default: Date.now },
 });
