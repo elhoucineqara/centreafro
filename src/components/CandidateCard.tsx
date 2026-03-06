@@ -8,9 +8,10 @@ import { motion } from 'framer-motion';
 interface CandidateCardProps {
     member: IMember;
     onClose?: () => void;
+    onStatusUpdate?: (id: string, newStatus: 'approved' | 'rejected') => void;
 }
 
-export default function CandidateCard({ member, onClose }: CandidateCardProps) {
+export default function CandidateCard({ member, onClose, onStatusUpdate }: CandidateCardProps) {
     // Info item component for cleaner sections
     const InfoItem = ({ label, value }: { label: string, value: string | React.ReactNode }) => (
         <div className="flex flex-col gap-0.5 text-right">
@@ -133,13 +134,38 @@ export default function CandidateCard({ member, onClose }: CandidateCardProps) {
 
                 {/* Footer / Status */}
                 <div className="px-8 py-4 bg-gray-50 flex justify-between items-center border-t border-gray-100">
-                    <div className="flex items-center gap-2">
-                        <span className="w-2 h-2 rounded-full bg-blue-600"></span>
-                        <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none">التاريخ: {new Date(member.createdAt).toLocaleDateString('fr-FR')}</span>
+                    <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-2">
+                            <span className="w-2 h-2 rounded-full bg-blue-600"></span>
+                            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none">التاريخ: {new Date(member.createdAt).toLocaleDateString('fr-FR')}</span>
+                        </div>
+
+                        {member.status === 'pending' && onStatusUpdate && (
+                            <div className="flex gap-2 mr-4 pr-4 border-r border-gray-200">
+                                <button
+                                    onClick={() => onStatusUpdate(member._id as unknown as string, 'approved')}
+                                    className="px-4 py-1.5 bg-emerald-600 text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-emerald-700 transition-all shadow-md shadow-emerald-200 active:scale-95 flex items-center gap-1.5"
+                                >
+                                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    قبول
+                                </button>
+                                <button
+                                    onClick={() => onStatusUpdate(member._id as unknown as string, 'rejected')}
+                                    className="px-4 py-1.5 bg-rose-600 text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-rose-700 transition-all shadow-md shadow-rose-200 active:scale-95 flex items-center gap-1.5"
+                                >
+                                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                    رفض
+                                </button>
+                            </div>
+                        )}
                     </div>
-                    <div className={`px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-tighter shadow-sm
-                        ${member.status === 'approved' ? 'bg-green-100 text-green-700' :
-                            member.status === 'rejected' ? 'bg-red-100 text-red-700' : 'bg-orange-100 text-orange-700'}`}
+                    <div className={`px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-tighter shadow-sm border
+                        ${member.status === 'approved' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' :
+                            member.status === 'rejected' ? 'bg-rose-50 text-rose-600 border-rose-100' : 'bg-amber-50 text-amber-600 border-amber-100'}`}
                     >
                         {member.status === 'approved' ? 'مقبول' : member.status === 'rejected' ? 'مرفوض' : 'في الانتظار'}
                     </div>

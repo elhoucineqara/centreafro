@@ -343,6 +343,10 @@ export default function AdminDashboardPage() {
                 <CandidateCard
                     member={selectedMember}
                     onClose={() => setSelectedMember(null)}
+                    onStatusUpdate={(id, newStatus) => {
+                        handleStatusUpdate(id, newStatus);
+                        setSelectedMember(prev => prev ? ({ ...prev, status: newStatus } as any) : null);
+                    }}
                 />
             )}
         </div>
