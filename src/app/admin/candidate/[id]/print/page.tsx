@@ -19,8 +19,9 @@ export default function CandidatePrintPage() {
                 if (!res.ok) throw new Error('فشل جلب بيانات العضو');
                 const data = await res.json();
                 setMember(data);
-            } catch (error: any) {
-                toast.error(error.message);
+            } catch (error: unknown) {
+                const message = error instanceof Error ? error.message : 'حدث خطأ غير متوقع';
+                toast.error(message);
                 router.push('/admin/dashboard');
             } finally {
                 setLoading(false);
