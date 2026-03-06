@@ -187,6 +187,7 @@ export default function AdminDashboardPage() {
                                     <th className="px-6 py-4 text-[9px] font-black text-slate-400 uppercase tracking-[0.2em]">المؤهلات</th>
                                     <th className="px-6 py-4 text-[9px] font-black text-slate-400 uppercase tracking-[0.2em]">الوضعية المهنية</th>
                                     <th className="px-6 py-4 text-[9px] font-black text-slate-400 uppercase tracking-[0.2em]">الوثائق</th>
+                                    <th className="px-6 py-4 text-center text-[9px] font-black text-slate-400 uppercase tracking-[0.2em]">الحالة</th>
                                     <th className="px-6 py-4 text-center text-[9px] font-black text-slate-400 uppercase tracking-[0.2em]">الإجراءات</th>
                                 </tr>
                             </thead>
@@ -260,6 +261,16 @@ export default function AdminDashboardPage() {
                                                         </svg>
                                                     </a>
                                                 )}
+                                            </div>
+                                        </td>
+                                        <td className="px-6 py-4 text-center">
+                                            <div className={`inline-flex px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter shadow-sm border
+                                                ${member.status === 'approved' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' :
+                                                    member.status === 'rejected' ? 'bg-rose-50 text-rose-600 border-rose-100' :
+                                                        'bg-amber-50 text-amber-600 border-amber-100'}`}
+                                            >
+                                                {member.status === 'approved' ? 'مقبول' :
+                                                    member.status === 'rejected' ? 'مرفوض' : 'في الانتظار'}
                                             </div>
                                         </td>
                                         <td className="px-6 py-4">
