@@ -20,6 +20,8 @@ export default function AdminDashboardPage() {
     const [totalPages, setTotalPages] = useState(1);
     const [statusFilter, setStatusFilter] = useState<'all' | 'pending' | 'approved' | 'rejected'>('all');
     const [selectedMember, setSelectedMember] = useState<IMember | null>(null);
+    const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+    const [previewType, setPreviewType] = useState<'image' | 'pdf' | null>(null);
 
     const router = useRouter();
 
@@ -98,6 +100,11 @@ export default function AdminDashboardPage() {
 
     const handlePrintView = (member: IMember) => {
         setSelectedMember(member);
+    };
+
+    const openPreview = (url: string, type: 'image' | 'pdf') => {
+        setPreviewUrl(url);
+        setPreviewType(type);
     };
 
     return (
@@ -291,18 +298,18 @@ export default function AdminDashboardPage() {
                                                 <td className="px-6 py-4">
                                                     <div className="flex gap-2">
                                                         {member.photoUrl && (
-                                                            <a href={member.photoUrl} target="_blank" rel="noopener noreferrer" className="p-2.5 bg-blue-50 text-blue-600 rounded-xl hover:bg-blue-600 hover:text-white transition-all shadow-sm" title="الصورة">
+                                                            <button onClick={() => openPreview(member.photoUrl, 'image')} className="p-2.5 bg-blue-50 text-blue-600 rounded-xl hover:bg-blue-600 hover:text-white transition-all shadow-sm" title="الصورة">
                                                                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                                                 </svg>
-                                                            </a>
+                                                            </button>
                                                         )}
                                                         {member.cinPdfUrl && (
-                                                            <a href={member.cinPdfUrl} target="_blank" rel="noopener noreferrer" className="p-2.5 bg-rose-50 text-rose-600 rounded-xl hover:bg-rose-600 hover:text-white transition-all shadow-sm" title="البطاقة (PDF)">
+                                                            <button onClick={() => openPreview(member.cinPdfUrl, 'pdf')} className="p-2.5 bg-rose-50 text-rose-600 rounded-xl hover:bg-rose-600 hover:text-white transition-all shadow-sm" title="البطاقة (PDF)">
                                                                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
                                                                 </svg>
-                                                            </a>
+                                                            </button>
                                                         )}
                                                     </div>
                                                 </td>
@@ -403,18 +410,18 @@ export default function AdminDashboardPage() {
                                         <div className="flex items-center justify-between gap-4 mt-1">
                                             <div className="flex gap-2">
                                                 {member.photoUrl && (
-                                                    <a href={member.photoUrl} target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center border border-blue-100">
+                                                    <button onClick={() => openPreview(member.photoUrl, 'image')} className="w-10 h-10 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center border border-blue-100">
                                                         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                                         </svg>
-                                                    </a>
+                                                    </button>
                                                 )}
                                                 {member.cinPdfUrl && (
-                                                    <a href={member.cinPdfUrl} target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-rose-50 text-rose-600 rounded-xl flex items-center justify-center border border-rose-100">
+                                                    <button onClick={() => openPreview(member.cinPdfUrl, 'pdf')} className="w-10 h-10 bg-rose-50 text-rose-600 rounded-xl flex items-center justify-center border border-rose-100">
                                                         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
                                                         </svg>
-                                                    </a>
+                                                    </button>
                                                 )}
                                             </div>
                                             <div className="flex gap-2">
@@ -482,6 +489,50 @@ export default function AdminDashboardPage() {
                             setSelectedMember(prev => prev ? ({ ...prev, status: newStatus } as IMember) : null);
                         }}
                     />
+                )}
+            </AnimatePresence>
+
+            {/* Document Preview Modal */}
+            <AnimatePresence>
+                {previewUrl && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 sm:p-6 lg:p-12"
+                        onClick={() => setPreviewUrl(null)}
+                    >
+                        <motion.div
+                            initial={{ scale: 0.95, opacity: 0, y: 20 }}
+                            animate={{ scale: 1, opacity: 1, y: 0 }}
+                            exit={{ scale: 0.95, opacity: 0, y: 20 }}
+                            onClick={(e) => e.stopPropagation()}
+                            className="bg-white rounded-3xl shadow-2xl overflow-hidden w-full max-w-5xl h-[85vh] flex flex-col"
+                        >
+                            <div className="flex items-center justify-between p-4 border-b border-slate-100 shrink-0">
+                                <h3 className="font-bold text-slate-800 text-lg">معاينة الوثيقة</h3>
+                                <div className="flex items-center gap-2">
+                                    <a href={previewUrl} target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl transition-colors" title="فتح في علامة تبويب جديدة">
+                                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                        </svg>
+                                    </a>
+                                    <button onClick={() => setPreviewUrl(null)} className="p-2 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-xl transition-colors">
+                                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <div className="flex-1 overflow-auto bg-slate-50/50 p-4 flex items-center justify-center relative">
+                                {previewType === 'image' ? (
+                                    <Image src={previewUrl} alt="Document Preview" fill className="object-contain" unoptimized />
+                                ) : (
+                                    <iframe src={`${previewUrl}#view=FitH`} className="w-full h-full rounded-xl border border-slate-200 bg-white" title="PDF Preview" />
+                                )}
+                            </div>
+                        </motion.div>
+                    </motion.div>
                 )}
             </AnimatePresence>
         </div>
