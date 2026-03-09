@@ -196,7 +196,7 @@ export default function AdminDashboardPage() {
                                     <tbody className="divide-y divide-slate-50">
                                         {members.map((member, i) => (
                                             <motion.tr
-                                                key={member._id as string}
+                                                key={member._id as unknown as string}
                                                 initial={{ opacity: 0, x: -10 }}
                                                 animate={{ opacity: 1, x: 0 }}
                                                 transition={{ delay: i * 0.05 }}
@@ -275,12 +275,12 @@ export default function AdminDashboardPage() {
                                                     <div className="flex items-center justify-center gap-2">
                                                         {member.status === 'pending' && (
                                                             <div className="flex gap-1.5 ml-2 pl-2 border-r border-slate-100">
-                                                                <button onClick={() => handleStatusUpdate(member._id as string, 'approved')} className="p-2 bg-emerald-50 text-emerald-600 rounded-lg hover:bg-emerald-600 hover:text-white transition-all" title="قبول">
+                                                                <button onClick={() => handleStatusUpdate(member._id as unknown as string, 'approved')} className="p-2 bg-emerald-50 text-emerald-600 rounded-lg hover:bg-emerald-600 hover:text-white transition-all" title="قبول">
                                                                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                                                                     </svg>
                                                                 </button>
-                                                                <button onClick={() => handleStatusUpdate(member._id as string, 'rejected')} className="p-2 bg-rose-50 text-rose-600 rounded-lg hover:bg-rose-600 hover:text-white transition-all" title="رفض">
+                                                                <button onClick={() => handleStatusUpdate(member._id as unknown as string, 'rejected')} className="p-2 bg-rose-50 text-rose-600 rounded-lg hover:bg-rose-600 hover:text-white transition-all" title="رفض">
                                                                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
                                                                     </svg>
@@ -293,7 +293,7 @@ export default function AdminDashboardPage() {
                                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                                             </svg>
                                                         </button>
-                                                        <button onClick={() => handleDelete(member._id as string, member.fullNameArabic)} className="p-2 bg-rose-50 text-rose-600 rounded-lg hover:bg-rose-600 hover:text-white transition-all" title="حذف">
+                                                        <button onClick={() => handleDelete(member._id as unknown as string, member.fullNameArabic)} className="p-2 bg-rose-50 text-rose-600 rounded-lg hover:bg-rose-600 hover:text-white transition-all" title="حذف">
                                                             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                                             </svg>
@@ -310,7 +310,7 @@ export default function AdminDashboardPage() {
                             <div className="lg:hidden divide-y divide-slate-100">
                                 {members.map((member, i) => (
                                     <motion.div
-                                        key={member._id as string}
+                                        key={member._id as unknown as string}
                                         initial={{ opacity: 0, y: 10 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         transition={{ delay: i * 0.05 }}
@@ -376,14 +376,14 @@ export default function AdminDashboardPage() {
                                                 <button onClick={() => handlePrintView(member)} className="px-4 py-2 bg-slate-900 text-white rounded-xl text-[10px] font-black uppercase tracking-widest">التفاصيل</button>
                                                 {member.status === 'pending' && (
                                                     <>
-                                                        <button onClick={() => handleStatusUpdate(member._id as string, 'approved')} className="w-10 h-10 bg-emerald-500 text-white rounded-xl flex items-center justify-center shadow-lg shadow-emerald-200">
+                                                        <button onClick={() => handleStatusUpdate(member._id as unknown as string, 'approved')} className="w-10 h-10 bg-emerald-500 text-white rounded-xl flex items-center justify-center shadow-lg shadow-emerald-200">
                                                             <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                                                             </svg>
                                                         </button>
                                                     </>
                                                 )}
-                                                <button onClick={() => handleDelete(member._id as string, member.fullNameArabic)} className="w-10 h-10 bg-rose-50 text-rose-600 rounded-xl flex items-center justify-center border border-rose-100">
+                                                <button onClick={() => handleDelete(member._id as unknown as string, member.fullNameArabic)} className="w-10 h-10 bg-rose-50 text-rose-600 rounded-xl flex items-center justify-center border border-rose-100">
                                                     <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                                     </svg>
@@ -434,7 +434,7 @@ export default function AdminDashboardPage() {
                         onClose={() => setSelectedMember(null)}
                         onStatusUpdate={(id, newStatus) => {
                             handleStatusUpdate(id, newStatus);
-                            setSelectedMember(prev => prev ? ({ ...prev, status: newStatus } as any) : null);
+                            setSelectedMember(prev => prev ? ({ ...prev, status: newStatus } as IMember) : null);
                         }}
                     />
                 )}

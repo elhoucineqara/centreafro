@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
 
@@ -21,7 +21,7 @@ export default function MessagesPage() {
     const [view, setView] = useState<'inbox' | 'archived'>('inbox');
     const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
-    const fetchMessages = async () => {
+    const fetchMessages = useCallback(async () => {
         setLoading(true);
         try {
             const res = await fetch(`/api/contact?archived=${view === 'archived'}`);
@@ -30,16 +30,16 @@ export default function MessagesPage() {
                 setMessages(data);
                 setSelectedIds([]);
             }
-        } catch (error) {
+        } catch {
             toast.error('حدث خطأ أثناء تحميل الرسائل');
         } finally {
             setLoading(false);
         }
-    };
+    }, [view]);
 
     useEffect(() => {
         fetchMessages();
-    }, [view]);
+    }, [fetchMessages]);
 
     const handleBulkAction = async (action: 'delete' | 'archive' | 'unarchive') => {
         const ids = selectedIds.length > 0 ? selectedIds : (selectedMessage ? [selectedMessage._id] : []);
@@ -69,7 +69,7 @@ export default function MessagesPage() {
             } else {
                 throw new Error();
             }
-        } catch (error) {
+        } catch {
             toast.error('حدث خطأ أثناء تنفيذ العملية');
         }
     };

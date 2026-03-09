@@ -209,7 +209,7 @@ export default function HomePage() {
                     } else {
                       throw new Error();
                     }
-                  } catch (error) {
+                  } catch {
                     import('react-hot-toast').then(t => t.default.error('حدث خطأ أثناء الإرسال. يرجى المحاولة لاحقاً.'));
                   } finally {
                     btn.disabled = false;
