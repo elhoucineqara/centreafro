@@ -4,7 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
 
 const navItems = [
@@ -12,7 +12,12 @@ const navItems = [
     { name: 'رسائل التواصل', href: '/admin/messages', icon: 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z' },
 ];
 
-export default function AdminSidebar() {
+interface AdminSidebarProps {
+    isOpen: boolean;
+    onClose: () => void;
+}
+
+export default function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
     const pathname = usePathname();
     const router = useRouter();
 
@@ -31,15 +36,15 @@ export default function AdminSidebar() {
         }
     };
 
-    return (
-        <aside className="w-72 bg-[#020617] text-white min-h-screen flex flex-col fixed inset-y-0 right-0 z-50 border-l border-white/5 shadow-2xl overflow-hidden">
+    const sidebarContent = (
+        <aside className="w-72 bg-[#020617] text-white h-full flex flex-col border-l border-white/5 shadow-2xl overflow-hidden relative">
             {/* Background Accents (Subtle Glows) */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-blue-600/5 rounded-full blur-[100px] -mr-32 -mt-32" />
             <div className="absolute bottom-0 left-0 w-48 h-48 bg-indigo-600/5 rounded-full blur-[80px] -ml-24 -mb-24" />
 
             {/* Branding */}
-            <div className="p-6 border-b border-white/5 relative z-10">
-                <Link href="/admin/dashboard" className="flex flex-col items-center group">
+            <div className="p-6 border-b border-white/5 relative z-10 flex items-center justify-between">
+                <Link href="/admin/dashboard" className="flex flex-col items-center group flex-1">
                     <div className="p-3 bg-white/5 rounded-2xl mb-3 shadow-2xl ring-1 ring-white/10 group-hover:ring-blue-500/50 transition-all duration-500 hover:scale-105">
                         <Image src="/logoecrit.png" alt="Logo" width={120} height={40} className="object-contain brightness-110 drop-shadow-2xl" priority />
                     </div>
@@ -48,6 +53,11 @@ export default function AdminSidebar() {
                         <span className="text-blue-200/60 text-[9px] font-black tracking-[0.3em] uppercase">لوحة الإدارة</span>
                     </div>
                 </Link>
+                <button onClick={onClose} className="lg:hidden p-2 text-slate-400 hover:text-white transition-colors">
+                    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
             </div>
 
             {/* Navigation */}
@@ -58,6 +68,9 @@ export default function AdminSidebar() {
                         <Link
                             key={item.href}
                             href={item.href}
+                            onClick={() => {
+                                if (window.innerWidth < 1024) onClose();
+                            }}
                             className={`flex items-center gap-3 px-4 py-3 rounded-2xl transition-all duration-500 group relative overflow-hidden ${isActive
                                 ? 'text-white shadow-[0_15px_30px_-10px_rgba(37,99,235,0.3)]'
                                 : 'text-slate-400 hover:text-white'
@@ -89,7 +102,7 @@ export default function AdminSidebar() {
             </nav>
 
             {/* Footer / Account */}
-            <div className="p-8 border-t border-white/5 bg-black/20 backdrop-blur-xl relative z-10">
+            <div className="p-6 border-t border-white/5 bg-black/20 backdrop-blur-xl relative z-10">
                 <button
                     onClick={handleLogout}
                     className="w-full flex items-center gap-4 px-5 py-4 rounded-[1.5rem] text-rose-400 hover:bg-rose-500/10 hover:text-rose-300 transition-all duration-300 group ring-1 ring-white/5 hover:ring-rose-500/30"
@@ -103,5 +116,38 @@ export default function AdminSidebar() {
                 </button>
             </div>
         </aside>
+    );
+
+    return (
+        <>
+            {/* Desktop Sidebar */}
+            <div className="hidden lg:block w-72 h-screen fixed inset-y-0 right-0 z-50">
+                {sidebarContent}
+            </div>
+
+            {/* Mobile Sidebar */}
+            <AnimatePresence>
+                {isOpen && (
+                    <>
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            onClick={onClose}
+                            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] lg:hidden"
+                        />
+                        <motion.div
+                            initial={{ x: '100%' }}
+                            animate={{ x: 0 }}
+                            exit={{ x: '100%' }}
+                            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+                            className="fixed inset-y-0 right-0 w-72 z-[70] lg:hidden"
+                        >
+                            {sidebarContent}
+                        </motion.div>
+                    </>
+                )}
+            </AnimatePresence>
+        </>
     );
 }
