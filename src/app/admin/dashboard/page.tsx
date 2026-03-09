@@ -174,7 +174,7 @@ export default function AdminDashboardPage() {
                             ].map((tab) => (
                                 <button
                                     key={tab.id}
-                                    onClick={() => { setStatusFilter(tab.id as any); setPage(1); }}
+                                    onClick={() => { setStatusFilter(tab.id as 'all' | 'pending' | 'approved' | 'rejected'); setPage(1); }}
                                     className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all whitespace-nowrap flex-1 md:flex-initial ${statusFilter === tab.id
                                         ? 'bg-white text-blue-600 shadow-sm'
                                         : 'text-slate-500 hover:text-slate-900'

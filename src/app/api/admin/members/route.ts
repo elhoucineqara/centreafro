@@ -12,7 +12,7 @@ export async function GET(req: NextRequest) {
         const page = parseInt(searchParams.get('page') || '1');
         const limit = parseInt(searchParams.get('limit') || '10');
 
-        let filter: any = {};
+        const filter: { $or?: Array<{ [key: string]: { $regex: string; $options: string } }>; status?: string } = {};
         if (query) {
             filter.$or = [
                 { fullNameArabic: { $regex: query, $options: 'i' } },
