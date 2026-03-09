@@ -7,6 +7,10 @@ import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { IMember } from '@/models/Member';
 import CandidateCard from '@/components/CandidateCard';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+
+const MySwal = withReactContent(Swal);
 
 export default function AdminDashboardPage() {
     const [members, setMembers] = useState<IMember[]>([]);
@@ -14,6 +18,7 @@ export default function AdminDashboardPage() {
     const [search, setSearch] = useState('');
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [statusFilter, setStatusFilter] = useState<'all' | 'pending' | 'approved' | 'rejected'>('all');
     const [selectedMember, setSelectedMember] = useState<IMember | null>(null);
 
     const router = useRouter();
@@ -21,7 +26,7 @@ export default function AdminDashboardPage() {
     const fetchMembers = async () => {
         setLoading(true);
         try {
-            const res = await fetch(`/api/admin/members?q=${search}&page=${page}&limit=10`);
+            const res = await fetch(`/api/admin/members?q=${search}&status=${statusFilter}&page=${page}&limit=10`);
             if (!res.ok) {
                 if (res.status === 401) {
                     router.push('/admin/login');
@@ -42,10 +47,27 @@ export default function AdminDashboardPage() {
     useEffect(() => {
         fetchMembers();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [search, page]);
+    }, [search, page, statusFilter]);
 
     const handleDelete = async (id: string, name: string) => {
-        if (!confirm(`هل أنت متأكد أنك تريد حذف العضو ${name}؟`)) return;
+        const result = await MySwal.fire({
+            title: 'هل أنت متأكد؟',
+            text: `تريد حذف العضو ${name}؟`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#e11d48',
+            cancelButtonColor: '#64748b',
+            confirmButtonText: 'نعم، احذفه!',
+            cancelButtonText: 'إلغاء',
+            reverseButtons: true,
+            customClass: {
+                popup: 'rounded-[2rem] font-tajawal',
+                confirmButton: 'rounded-xl px-6 py-2.5 font-bold',
+                cancelButton: 'rounded-xl px-6 py-2.5 font-bold'
+            }
+        });
+
+        if (!result.isConfirmed) return;
 
         try {
             const res = await fetch(`/api/admin/members/${id}`, { method: 'DELETE' });
@@ -134,32 +156,55 @@ export default function AdminDashboardPage() {
 
             {/* Members List Section */}
             <div className="bg-white rounded-[1.5rem] sm:rounded-[3rem] shadow-2xl shadow-slate-200/40 border border-slate-100 overflow-hidden">
-                {/* Header / Search */}
-                <div className="px-5 sm:px-6 py-4 sm:py-5 border-b border-slate-50 flex flex-col md:flex-row justify-between items-center gap-4">
-                    <div className="flex items-center gap-3 w-full md:w-auto">
+                {/* Header / Search & Filter */}
+                <div className="px-5 sm:px-6 py-4 sm:py-5 border-b border-slate-50 flex flex-col xl:flex-row justify-between items-center gap-6">
+                    <div className="flex items-center gap-3 w-full xl:w-auto">
                         <div className="w-2.5 h-2.5 rounded-full bg-blue-600 animate-pulse hidden sm:block"></div>
                         <h3 className="text-lg sm:text-xl font-black text-slate-900 tracking-tight">قائمة الأعضاء</h3>
                     </div>
 
-                    <div className="relative w-full md:w-72 lg:w-96 group">
-                        <input
-                            type="text"
-                            placeholder="ابحث عن عضو..."
-                            className="w-full pr-10 pl-3 py-2 bg-slate-50 border-2 border-transparent rounded-xl focus:bg-white focus:border-blue-500/20 focus:ring-4 focus:ring-blue-500/5 transition-all text-sm font-bold text-slate-900 placeholder-slate-400 shadow-inner"
-                            value={search}
-                            onChange={(e) => { setSearch(e.target.value); setPage(1); }}
-                        />
-                        <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-blue-600 transition-colors">
-                            <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                            </svg>
+                    <div className="flex flex-col md:flex-row items-center gap-4 w-full xl:w-auto">
+                        {/* Status Filter Tabs */}
+                        <div className="flex bg-slate-100 p-1 rounded-2xl w-full md:w-auto overflow-x-auto no-scrollbar">
+                            {[
+                                { id: 'all', label: 'الكل' },
+                                { id: 'pending', label: 'في الانتظار' },
+                                { id: 'approved', label: 'مقبول' },
+                                { id: 'rejected', label: 'مرفوض' }
+                            ].map((tab) => (
+                                <button
+                                    key={tab.id}
+                                    onClick={() => { setStatusFilter(tab.id as any); setPage(1); }}
+                                    className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all whitespace-nowrap flex-1 md:flex-initial ${statusFilter === tab.id
+                                        ? 'bg-white text-blue-600 shadow-sm'
+                                        : 'text-slate-500 hover:text-slate-900'
+                                        }`}
+                                >
+                                    {tab.label}
+                                </button>
+                            ))}
+                        </div>
+
+                        <div className="relative w-full md:w-72 lg:w-80 group">
+                            <input
+                                type="text"
+                                placeholder="ابحث عن عضو..."
+                                className="w-full pr-10 pl-3 py-2 bg-slate-50 border-2 border-transparent rounded-xl focus:bg-white focus:border-blue-500/20 focus:ring-4 focus:ring-blue-500/5 transition-all text-sm font-bold text-slate-900 placeholder-slate-400 shadow-inner"
+                                value={search}
+                                onChange={(e) => { setSearch(e.target.value); setPage(1); }}
+                            />
+                            <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-blue-600 transition-colors">
+                                <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                </svg>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <div className="w-full">
                     {loading ? (
-                        <div className="py-20 sm:py-32 text-center">
+                        <div className="min-h-[400px] flex flex-col items-center justify-center py-20 sm:py-32 text-center">
                             <div className="inline-block relative">
                                 <div className="animate-spin rounded-full h-12 w-12 sm:h-16 sm:w-16 border-[6px] border-blue-600/10 border-t-blue-600"></div>
                                 <div className="absolute inset-0 flex items-center justify-center">
@@ -169,7 +214,7 @@ export default function AdminDashboardPage() {
                             <p className="mt-6 text-slate-400 font-black uppercase tracking-widest text-[10px]">جاري جلب البيانات</p>
                         </div>
                     ) : members.length === 0 ? (
-                        <div className="py-20 sm:py-32 text-center px-6">
+                        <div className="min-h-[400px] flex flex-col items-center justify-center py-20 sm:py-32 text-center px-6">
                             <div className="w-16 h-16 sm:w-24 sm:h-24 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6 text-slate-200">
                                 <svg className="w-10 h-10 sm:w-12 sm:h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />

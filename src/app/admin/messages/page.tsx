@@ -3,6 +3,10 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import toast from 'react-hot-toast';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+
+const MySwal = withReactContent(Swal);
 
 interface Message {
     _id: string;
@@ -46,7 +50,25 @@ export default function MessagesPage() {
 
         if (ids.length === 0) return;
 
-        if (action === 'delete' && !confirm('هل أنت متأكد من حذف الرسائل المختارة؟')) return;
+        if (action === 'delete') {
+            const result = await MySwal.fire({
+                title: 'هل أنت متأكد؟',
+                text: 'هل تريد حذف الرسائل المختارة نهائياً؟',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#e11d48',
+                cancelButtonColor: '#64748b',
+                confirmButtonText: 'نعم، احذف!',
+                cancelButtonText: 'إلغاء',
+                reverseButtons: true,
+                customClass: {
+                    popup: 'rounded-[2rem] font-tajawal',
+                    confirmButton: 'rounded-xl px-6 py-2.5 font-bold',
+                    cancelButton: 'rounded-xl px-6 py-2.5 font-bold'
+                }
+            });
+            if (!result.isConfirmed) return;
+        }
 
         try {
             const method = action === 'delete' ? 'DELETE' : 'PATCH';

@@ -20,7 +20,9 @@
     "react": "^18",
     "react-dom": "^18",
     "react-hot-toast": "^2.6.0",
-    "react-simple-keyboard": "^3.8.165"
+    "react-simple-keyboard": "^3.8.165",
+    "sweetalert2": "^11.26.22",
+    "sweetalert2-react-content": "^5.1.1"
   },
   "devDependencies": {
     "@types/jsonwebtoken": "^9.0.10",

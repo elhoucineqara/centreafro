@@ -8,18 +8,21 @@ export async function GET(req: NextRequest) {
 
         const searchParams = req.nextUrl.searchParams;
         const query = searchParams.get('q') || '';
+        const status = searchParams.get('status') || 'all';
         const page = parseInt(searchParams.get('page') || '1');
         const limit = parseInt(searchParams.get('limit') || '10');
 
-        let filter = {};
+        let filter: any = {};
         if (query) {
-            filter = {
-                $or: [
-                    { fullNameArabic: { $regex: query, $options: 'i' } },
-                    { fullNameFrench: { $regex: query, $options: 'i' } },
-                    { cni: { $regex: query, $options: 'i' } },
-                ],
-            };
+            filter.$or = [
+                { fullNameArabic: { $regex: query, $options: 'i' } },
+                { fullNameFrench: { $regex: query, $options: 'i' } },
+                { cni: { $regex: query, $options: 'i' } },
+            ];
+        }
+
+        if (status !== 'all') {
+            filter.status = status;
         }
 
         const members = await Member.find(filter)
