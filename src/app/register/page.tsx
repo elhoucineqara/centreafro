@@ -1,11 +1,13 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 
 import { motion } from 'framer-motion';
 
 export default function RegistrationPage() {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     // ... (I will use multi_replace to do this properly to avoid replacing the whole file)
     fullNameArabic: '',
@@ -64,6 +66,7 @@ export default function RegistrationPage() {
       }
 
       toast.success(data.message);
+      router.push('/');
       // Reset form
       setFormData({
         fullNameArabic: '',

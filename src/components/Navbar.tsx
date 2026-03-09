@@ -30,7 +30,7 @@ export default function Navbar() {
                     <div className="hidden md:flex space-x-8 space-x-reverse items-center">
                         <Link href="/#about" className="text-gray-600 hover:text-blue-600 font-medium transition-colors">من نحن</Link>
                         <Link href="/#objectives" className="text-gray-600 hover:text-blue-600 font-medium transition-colors">أهدافنا</Link>
-                        <Link href="/#contact" className="text-gray-600 hover:text-blue-600 font-medium transition-colors">اتصل بنا</Link>
+                        <Link href="/#contact-form" className="text-gray-600 hover:text-blue-600 font-medium transition-colors">اتصل بنا</Link>
                         <Link
                             href="/register"
                             className="bg-blue-600 text-white px-6 py-2 rounded-full font-bold hover:bg-blue-700 transition-colors shadow-sm"
@@ -62,7 +62,7 @@ export default function Navbar() {
                 <div className="md:hidden bg-white border-t border-gray-100 px-4 pt-2 pb-4 space-y-1 shadow-lg absolute inset-x-0 top-20">
                     <Link href="/#about" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 text-right">من نحن</Link>
                     <Link href="/#objectives" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 text-right">أهدافنا</Link>
-                    <Link href="/#contact" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 text-right">اتصل بنا</Link>
+                    <Link href="/#contact-form" onClick={() => setIsMobileMenuOpen(false)} className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 text-right">اتصل بنا</Link>
                     <Link href="/register" onClick={() => setIsMobileMenuOpen(false)} className="block w-full text-center mt-4 bg-blue-600 text-white px-6 py-3 rounded-full font-bold hover:bg-blue-700 transition-colors">
                         بوابة التسجيل
                     </Link>
